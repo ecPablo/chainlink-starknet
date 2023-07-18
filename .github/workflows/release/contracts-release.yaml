@@ -1,0 +1,26 @@
+name: 'SC Library - Build Release File'
+
+# **What it does**: Reads the contents of the repo and creates a file listing all relevant smart contracts
+# **Why we have it**: To index the smart contracts of the repo for usage with the rest of CLI tooling
+# **Who does it impact**: SC Contract Library
+on:
+  release:
+    types: [published]
+permissions:
+  contents: write
+  pull-requests: read
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  gen-release:
+    runs-on: ubuntu-latest
+    steps:
+      - id: gen-release
+        name: 'Generate release.txt'
+        uses: ecPablo/contracts-artifacts-action@1.0.0
+        with:
+          target-path: 'contracts/programs'
