@@ -23,4 +23,4 @@ jobs:
         name: 'Generate release.txt'
         uses: ecPablo/contracts-artifacts-action@1.0.0
         with:
-          target-path: 'contracts/programs'
+          target-path: 'contracts/vendor'
